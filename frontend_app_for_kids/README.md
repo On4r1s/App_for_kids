@@ -16,7 +16,7 @@ If you are developing a production application, we recommend updating the config
 ```js
 export default tseslint.config({
   languageOptions: {
-    // other options...
+    // public options...
     parserOptions: {
       project: ['./tsconfig.node.json', './tsconfig.app.json'],
       tsconfigRootDir: import.meta.dirname,
@@ -41,7 +41,7 @@ export default tseslint.config({
     react,
   },
   rules: {
-    // other rules...
+    // public rules...
     // Enable its recommended rules
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,

@@ -1,16 +1,30 @@
+import os
+
+from PIL import Image
 import flask
-from os import environ
 from openai import OpenAI
 
 app = flask.Flask(__name__)
 
-client = OpenAI(api_key=environ['API_KEY'])
+client = OpenAI(api_key=os.environ['API_KEY'])
+
+
+def get_file(path):
+    path = 'static/' + path
+    if path[-4:] == '.png':
+        return Image.open(path)
+    else:
+        return open(path).read()
 
 
 @app.get("/")
 def main_page():
+    return flask.Response(get_file('page/hello_world.html'), mimetype="text/html")
 
-    return "<p>Hello, World!</p>"
+
+@app.get("/<name1>/<name2>/<name3>")
+def public(name1, name2, name3):
+    return flask.Response(get_file(f'{name1}/{name2}/{name3}'))
 
 
 @app.post("/prompt")
@@ -26,4 +40,5 @@ def input_prompt():
     for chunk in stream:
         if chunk.choices[0].delta.content is not None:
             odp += chunk.choices[0].delta.content
-    return odp
+    out = dict(prompt=odp)
+    return flask.jsonify(out)
