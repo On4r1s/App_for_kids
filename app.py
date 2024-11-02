@@ -5,9 +5,11 @@ from time import sleep
 
 from PIL import Image
 import flask
+from openai import OpenAI
 
 app = flask.Flask(__name__)
 
+'''
 client = OpenAI(api_key=os.environ['API_KEY'])
 
 kostyl = dict()
@@ -70,18 +72,19 @@ def generate_audio(ans):
                     print(e)
                     continue
 
-
+'''
 def get_file(path):
     path = 'static/' + path
-    if path.endswith('.png'):
+    if path[-4:] == '.png':
         return Image.open(path)
     else:
         return open(path).read()
 
+
 @app.get("/")
 def main_page():
     return flask.Response(get_file('page/hello_world.html'), mimetype="text/html")
-
+'''
 
 @app.get("/<name1>/<name2>/<name3>")
 def public(name1, name2, name3):
@@ -120,3 +123,7 @@ def tts():
         except KeyError:
             sleep(0.2)
     return flask.Response(flask.stream_with_context(generate_audio(ans)), content_type='audio/opus')
+'''
+# added
+if __name__ == "__main__":
+    app.run(debug=True)
