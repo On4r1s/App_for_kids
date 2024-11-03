@@ -5,6 +5,8 @@ function App() {
     const [isListening, setIsListening] = useState(false);
     const recognitionRef = React.useRef(null);
 
+    const [isTalking, setIsTalking] = useState(true);
+
     useEffect(() => {
 
         if ('webkitSpeechRecognition' in window) {
@@ -17,7 +19,6 @@ function App() {
             recognitionRef.current.onresult = (event) => {
                 const transcript = event.results[0][0].transcript; 
 
-                
                 setInputValue(transcript); 
                 console.log('Wynik rozpoznawania: ', transcript);
                 setIsListening(false); 
@@ -36,7 +37,6 @@ function App() {
         }
 
         return () => {
-            
             if (recognitionRef.current) {
                 recognitionRef.current.stop();
             }
@@ -46,7 +46,6 @@ function App() {
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
-
 
     const handleVoiceSearch = () => {
         if (isListening) {
@@ -59,7 +58,19 @@ function App() {
 
     return (
         <div>
-            <h1>Witaj w aplikacji!</h1>
+            <div className="wrap"> 
+              <div className="face">
+                <div className="eye left-eye">
+                  <div className="ratina"></div>
+                </div>
+                <div className="eye right-eye">
+                  <div className="ratina"></div>
+                </div>
+                <div className="mouth">
+                  <div className={`mouth_impression ${isTalking ? "talking" : ""}`}></div>
+                </div>
+              </div>
+            </div>
             <div className="two_inputs">
                 <input 
                     type="text" 
@@ -69,7 +80,7 @@ function App() {
                     style={{ flex: 1, marginRight: '10px' }} 
                 />
                 <button onClick={handleVoiceSearch} className={`mic-toggle ${isListening ? 'pulsating' : ''}`}>
-                <span class="material-symbols-outlined">mic</span> 
+                    <span class="material-symbols-outlined">mic</span> 
                 </button>
             </div>
         </div>

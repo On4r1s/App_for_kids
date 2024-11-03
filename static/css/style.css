@@ -1,31 +1,36 @@
 * {
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     font-family: sans-serif;
-}
-
-body {
+  }
+  
+  body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #9afffd;
     flex-direction: column;
     align-items: center;
-    height: 100vh; 
-    margin: 0; 
-}
-
-.container {
-    margin: 20px; 
-}
-
-button {
+  }
+  
+  .container {
+    margin: 20px;
+  }
+  
+  button {
     appearance: none;
     border: none;
     outline: none;
     background-color: none;
-    cursor: pointer; 
-}
-
-.mic-toggle { 
+    cursor: pointer;
+  }
+  
+  .mic-toggle {
     position: relative;
     display: block;
     width: 4rem;
@@ -33,110 +38,205 @@ button {
     border-radius: 50%;
     margin-left: 20px;
     background-color: crimson;
-    
-}
-
-.mic-toggle::after,
-.mic-toggle::before {
+  }
+  
+  .mic-toggle::after,
+  .mic-toggle::before {
     --pad: 0rem;
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     z-index: 0;
-    background-color: rgb(220, 20, 60,0.2);
+    background-color: rgb(220, 20, 60, 0.2);
     border-radius: 50%;
-    top:var(--pad);
+    top: var(--pad);
     bottom: var(--pad);
     right: var(--pad);
     left: var(--pad);
-}
-
-.mic-toggle:after {
+  }
+  
+  .mic-toggle:after {
     transition: 0.4s;
-}
-.mic-toggle:before {
+  }
+  .mic-toggle:before {
     transition: 0.2s;
-}
-
-.mic-toggle:hover:after {
+  }
+  
+  .mic-toggle:hover:after {
     --pad: -1rem;
-}
-
-.mic-toggle:hover:before{
+  }
+  
+  .mic-toggle:hover:before {
     --pad: -0.5rem;
-}
-
-.mic-toggle span {
+  }
+  
+  .mic-toggle span {
     position: relative;
     z-index: 1;
     color: aliceblue;
     font-size: 2rem;
-}
-
-.mic-toggle.is-recording:after{
-    animation: Padafter 0.6s    ease-in alternate-reverse forwards infinite;
-}
-
-.mic-toggle.is-recording:before{
-    animation: Padbefore 0.6s    ease-in alternate-reverse forwards infinite;
-}
-
-@keyframes Padafter {
+  }
+  
+  .mic-toggle.is-recording:after {
+    animation: Padafter 0.6s ease-in alternate-reverse forwards infinite;
+  }
+  
+  .mic-toggle.is-recording:before {
+    animation: Padbefore 0.6s ease-in alternate-reverse forwards infinite;
+  }
+  
+  @keyframes Padafter {
     0% {
-        top:-0.5rem;
-        bottom: -0.5rem;
-        right: -0.5rem;
-        left: -0.5rem;
+      top: -0.5rem;
+      bottom: -0.5rem;
+      right: -0.5rem;
+      left: -0.5rem;
     }
     100% {
-        top:-0.25rem;
-        bottom: -0.25rem;
-        right: -0.25rem;
-        left: -0.25rem;
+      top: -0.25rem;
+      bottom: -0.25rem;
+      right: -0.25rem;
+      left: -0.25rem;
     }
-}
-
-@keyframes Padbefore {
+  }
+  
+  @keyframes Padbefore {
     0% {
-        top:-0.5rem;
-        bottom: -0.5rem;
-        right: -0.5rem;
-        left: -0.5rem;
+      top: -0.5rem;
+      bottom: -0.5rem;
+      right: -0.5rem;
+      left: -0.5rem;
     }
     100% {
-        top:-0.25rem;
-        bottom: -0.25rem;
-        right: -0.25rem;
-        left: -0.25rem;
+      top: -0.25rem;
+      bottom: -0.25rem;
+      right: -0.25rem;
+      left: -0.25rem;
     }
-}
-
-.mic-toggle.pulsating:after,
-.mic-toggle.pulsating:before {
-    animation: pulse 0.8s infinite; 
-}
-
-@keyframes pulse {
+  }
+  
+  .mic-toggle.pulsating:after,
+  .mic-toggle.pulsating:before {
+    animation: pulse 0.8s infinite;
+  }
+  
+  @keyframes pulse {
     0% {
-        transform: scale(1);
+      transform: scale(1);
     }
     50% {
-        transform: scale(1.2); 
+      transform: scale(1.2);
     }
     100% {
-        transform: scale(1); 
+      transform: scale(1);
     }
-}
-
-.two_inputs {
+  }
+  
+  .two_inputs {
     display: flex;
-    align-items: center; 
-    margin-top: 20px; 
+    align-items: center;
+    margin-top: 20px;
     margin-bottom: 20px;
+  }
+  
+  input[type="text"] {
+    flex: 0 0 200px;
+    margin-right: 10px;
+  }
+  
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    margin-bottom: 13vh;
+  }
+  
+  .face {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: #ffcd29;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    position: relative;
+  transition: 0.3s;
+  transform: scale(1.5);
 }
 
-input[type="text"] {
-    flex: 0 0 200px; 
-    margin-right: 10px; 
+.eye {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 80px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.left-eye {
+  left: 50px;
+}
+
+.right-eye {
+  right: 50px;
+}
+
+.ratina {
+  width: 45px;
+  height: 45px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mouth {
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  height: 80px;
+  bottom: 40px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mouth_impression {
+  width: 150px;
+  background: chocolate;
+  height: 220px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0px;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    transform: scaleY(1);
+  }
+  90% {
+    transform: scaleY(0.1);
+  }
+}
+
+.eye {
+  animation: blink 6s infinite;
+}
+
+@keyframes talk {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.3);
+  }
+}
+
+.talking {
+  animation: talk 2s infinite;
 }
 
