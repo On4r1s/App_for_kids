@@ -1,9 +1,12 @@
 const { useState, useEffect } = React;
 
 function App() {
+    const sessionID = uuid.v4();
     const [inputValue, setInputValue] = useState("");
     const [isListening, setIsListening] = useState(false);
     const recognitionRef = React.useRef(null);
+    const [transcript, setTranscript] = useState("");
+    const [response, setResponse] = useState("")
 
     const [isTalking, setIsTalking] = useState(true);
 
@@ -17,15 +20,19 @@ function App() {
             recognitionRef.current.lang = 'pl-PL';
 
             recognitionRef.current.onresult = (event) => {
-                const transcript = event.results[0][0].transcript; 
-
-                setInputValue(transcript); 
-                console.log('Wynik rozpoznawania: ', transcript);
-                setIsListening(false); 
+                const recognizedText = event.results[0][0].transcript; 
+                console.log('Wynik rozpoznawania: ', recognizedText);
+                setTranscript(recognizedText); 
+                setIsListening(false);  
             };
 
             recognitionRef.current.onend = () => {
                 setIsListening(false);
+
+                if (transcript) {
+                    sendTextToServer(transcript);
+                }
+
             };
 
             recognitionRef.current.onerror = (event) => {
@@ -41,7 +48,36 @@ function App() {
                 recognitionRef.current.stop();
             }
         };
-    }, []);
+    }, [transcript]);
+    
+
+    const sendTextToServer = (text) => {
+        fetch("/prompt_ttt", {  
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+                prompt: text,         
+                session_id: sessionID 
+            }),
+        })
+        .then(response => response.text()) 
+        .then(data => {
+            console.log("Odpowiedź z serwera:", data);
+            setResponse(data);
+            
+            setTranscript(""); 
+            setInputValue(""); 
+        })
+        .catch(error => {
+            console.error("Błąd podczas wysyłania do serwera:", error);
+        });
+    };
+
+    const handleArrowClick = () => {
+        sendTextToServer(inputValue);
+    };
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -76,9 +112,11 @@ function App() {
                     type="text" 
                     value={inputValue} 
                     onChange={handleInputChange} 
-                    placeholder="Wprowadź tekst" 
-                    style={{ flex: 1, marginRight: '10px' }} 
+                    placeholder="Wprowadź tekst"  
                 />
+                <button className="arrow-button" onClick={handleArrowClick}>
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                </button>
                 <button onClick={handleVoiceSearch} className={`mic-toggle ${isListening ? 'pulsating' : ''}`}>
                     <span class="material-symbols-outlined">mic</span> 
                 </button>

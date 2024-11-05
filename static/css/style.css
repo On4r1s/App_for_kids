@@ -18,10 +18,6 @@
     align-items: center;
   }
   
-  .container {
-    margin: 20px;
-  }
-  
   button {
     appearance: none;
     border: none;
@@ -29,16 +25,58 @@
     background-color: none;
     cursor: pointer;
   }
-  
-  .mic-toggle {
-    position: relative;
-    display: block;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    margin-left: 20px;
-    background-color: crimson;
+
+  .two_inputs {
+    display: flex;
+    align-items: center;
+    margin-top: 16vh;
+    width:90vw;
   }
+
+  .arrow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;        
+    height: 2.5rem;        
+    background-color: rgb(1, 139, 1);
+    border-radius: 8px;  
+    cursor: pointer;
+    border: none;
+    margin-left: 1vw;
+}
+
+.arrow-button .material-icons-outlined {
+    color: white;        
+    font-size: 1.8rem;   
+}
+  
+  
+  input[type="text"] {
+    flex: 1;
+    padding: 20px;
+    font-size: 1.8rem;
+    border: 5px solid #ccc;
+    border-radius: 30px;
+}
+
+.mic-toggle {
+  position: relative;
+  display: block;
+  width: 8rem; 
+  height: 8rem;
+  border-radius: 50%;
+  margin-left: 5vw;
+  background-color: crimson;
+}
+
+.mic-toggle span {
+  position: relative;
+  z-index: 1;
+  color: aliceblue;
+  font-size: 5rem;
+  line-height: 6rem;
+}
   
   .mic-toggle::after,
   .mic-toggle::before {
@@ -70,12 +108,6 @@
     --pad: -0.5rem;
   }
   
-  .mic-toggle span {
-    position: relative;
-    z-index: 1;
-    color: aliceblue;
-    font-size: 2rem;
-  }
   
   .mic-toggle.is-recording:after {
     animation: Padafter 0.6s ease-in alternate-reverse forwards infinite;
@@ -131,18 +163,7 @@
       transform: scale(1);
     }
   }
-  
-  .two_inputs {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  
-  input[type="text"] {
-    flex: 0 0 200px;
-    margin-right: 10px;
-  }
+
   
   .wrap {
     display: flex;
