@@ -1,6 +1,5 @@
 import json
 import os
-from base64 import b64decode
 from time import sleep
 
 from PIL import Image
@@ -9,7 +8,6 @@ from openai import OpenAI
 
 app = flask.Flask(__name__)
 
-'''
 client = OpenAI(api_key=os.environ['API_KEY'])
 
 kostyl = dict()
@@ -27,14 +25,6 @@ def generate_tft(prompt):
             ans += chunk.choices[0].delta.content
 
     return ans
-
-
-def generate_tfs(audio_file):
-    transcription = client.audio.transcriptions.create(
-        model="whisper-1",
-        file=audio_file
-    )
-    return transcription.text
 
 
 def generate_audio(ans):
@@ -72,7 +62,7 @@ def generate_audio(ans):
                     print(e)
                     continue
 
-'''
+
 def get_file(path):
     path = 'static/' + path
     if path[-4:] == '.png':
@@ -84,14 +74,14 @@ def get_file(path):
 @app.get("/")
 def main_page():
     return flask.Response(get_file('page/hello_world.html'), mimetype="text/html")
-'''
+
 
 @app.get("/<name1>/<name2>/<name3>")
 def public(name1, name2, name3):
     return flask.Response(get_file(f'{name1}/{name2}/{name3}'))
 
 
-# 1 request if text
+# 1 request for text
 @app.post("/prompt_ttt")
 def ttt():
     data = flask.request.get_json()
@@ -101,18 +91,7 @@ def ttt():
     return kostyl[data['session_id']], {"Content-Type": "text/plain"}
 
 
-# 1 request if speech
-@app.post("/prompt_stt")
-def stt():
-    data = flask.request.get_json()
-    audio = data["audio"]
-    with b64decode(audio) as audio_file:
-        kostyl[data['session_id']] = generate_tft(generate_tfs(open(audio_file, 'rb')))
-
-    return kostyl[data['session_id']], {"Content-Type": "text/plain"}
-
-
-# 2 request
+# 2 request for speech
 @app.post("/prompt_tts")
 def tts():
     data = flask.request.get_json()
@@ -123,7 +102,8 @@ def tts():
         except KeyError:
             sleep(0.2)
     return flask.Response(flask.stream_with_context(generate_audio(ans)), content_type='audio/opus')
-'''
+
+
 # added
 if __name__ == "__main__":
     app.run(debug=True)
