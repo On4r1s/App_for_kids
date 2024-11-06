@@ -1,6 +1,3 @@
-import json
-import os
-from base64 import b64decode
 from time import sleep
 
 from PIL import Image
@@ -30,7 +27,7 @@ def public(name1, name2, name3):
 
 
 # 1 request for text
-@app.post("/prompt_ttt")
+@app.get("/prompt_ttt")
 def ttt():
     data = flask.request.get_json()
     prompt = data["prompt"]
@@ -39,7 +36,7 @@ def ttt():
 
 
 # 2 request for speech
-@app.post("/prompt_tts")
+@app.get("/prompt_tts")
 def tts():
     data = flask.request.get_json()
     while True:
