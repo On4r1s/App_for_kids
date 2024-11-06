@@ -23,15 +23,12 @@ function App() {
                 const recognizedText = event.results[0][0].transcript; 
                 console.log('Wynik rozpoznawania: ', recognizedText);
                 setTranscript(recognizedText); 
-                setIsListening(false);  
+                setIsListening(false); 
+                sendTextToServer(recognizedText); 
             };
 
             recognitionRef.current.onend = () => {
                 setIsListening(false);
-
-                if (transcript) {
-                    sendTextToServer(transcript);
-                }
 
             };
 
@@ -105,6 +102,14 @@ function App() {
                 <div className="mouth">
                   <div className={`mouth_impression ${isTalking ? "talking" : ""}`}></div>
                 </div>
+                {response && (
+                    <div className="response-bubble">
+                        {response}
+                        <button className="close-button" onClick={() => setResponse('')}>
+                            X
+                        </button>
+                    </div>
+                )}
               </div>
             </div>
             <div className="two_inputs">
