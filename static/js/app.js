@@ -68,7 +68,6 @@ function App() {
             setTranscript(""); 
             setInputValue(""); 
 
-            fetchAudioResponse();
         })
         .catch(error => {
             console.error("Błąd podczas wysyłania do serwera:", error);
@@ -161,5 +160,4 @@ function App() {
     );
 }
 
-// Renderuj aplikację
 ReactDOM.render(<App />, document.getElementById('root'));

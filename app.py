@@ -82,7 +82,7 @@ def public(name1, name2, name3):
 
 
 # 1 request for text
-@app.get("/prompt_ttt")
+@app.post("/prompt_ttt")
 def ttt():
     data = flask.request.get_json()
     prompt = data["prompt"]
@@ -92,7 +92,7 @@ def ttt():
 
 
 # 2 request for speech
-@app.get("/prompt_tts")
+@app.post("/prompt_tts")
 def tts():
     data = flask.request.get_json()
     while True:
