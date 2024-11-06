@@ -68,7 +68,7 @@ def get_file(path):
     if path[-4:] == '.png':
         return Image.open(path)
     else:
-        return open(path).read()
+        return open(path, "rb").read()
 
 
 @app.get("/")
@@ -97,7 +97,7 @@ def tts():
     data = flask.request.get_json()
     while True:
         try:
-            ans = kostyl.pop([data['session_id']])
+            ans = kostyl.pop(data['session_id'])
             break
         except KeyError:
             sleep(0.2)

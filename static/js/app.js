@@ -25,6 +25,7 @@ function App() {
                 setTranscript(recognizedText); 
                 setIsListening(false); 
                 sendTextToServer(recognizedText); 
+                sendNothingToServer();
             };
 
             recognitionRef.current.onend = () => {
@@ -66,14 +67,44 @@ function App() {
             
             setTranscript(""); 
             setInputValue(""); 
+
+            fetchAudioResponse();
         })
         .catch(error => {
             console.error("Błąd podczas wysyłania do serwera:", error);
         });
     };
 
+    const sendNothingToServer = () => {
+        fetch("/prompt_tts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ session_id: sessionID }),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();  
+            } else {
+                throw new Error("Błąd podczas odbierania odpowiedzi audio");
+            }
+        })
+        .then(blob => {
+            const audioUrl = URL.createObjectURL(new Blob([blob], { type: "audio/opus" })); 
+            const audio = new Audio(audioUrl);
+            audio.play()
+        .then(() => console.log("Odtwarzanie audio rozpoczęte"))
+        .catch(err => console.error("Problem z odtwarzaniem audio:", err));
+        })
+        .catch(error => {
+            console.error("Błąd podczas odbierania odpowiedzi audio:", error);
+        });
+    };
+
     const handleArrowClick = () => {
         sendTextToServer(inputValue);
+        sendNothingToServer();
     };
 
     const handleInputChange = (event) => {
